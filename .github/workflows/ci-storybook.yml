@@ -3,8 +3,14 @@ name: ci-storybook
 on:
   push:
     branches: [main]
+    paths:
+      - 'apps/frontend/**'
+      - '.github/workflows/ci-storybook.yml'
   pull_request:
     branches: [main]
+    paths:
+      - 'apps/frontend/**'
+      - '.github/workflows/ci-storybook.yml'
 
 jobs:
   test:
