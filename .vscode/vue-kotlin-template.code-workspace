@@ -1,0 +1,33 @@
+{
+  "folders": [
+    {
+      "name": "root",
+      "path": "..",
+    },
+    {
+      "name": "frontend",
+      "path": "../apps/frontend",
+    },
+    {
+      "name": "backend",
+      "path": "../apps/backend",
+    },
+  ],
+  "settings": {
+    "editor.formatOnSave": true,
+    "files.autoSave": "onFocusChange",
+    "kotlin.compiler.jvm.target": "21"
+  },
+  "extensions": {
+    "recommendations": [
+      "eamodio.gitlens",
+      "mhutchie.git-graph",
+      "vue.volar",
+      "antfu.vite",
+      "ms-vscode.vscode-typescript-next",
+      "bradlc.vscode-tailwindcss",
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode"
+    ],
+  },
+}
