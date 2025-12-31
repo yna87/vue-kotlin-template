@@ -1,4 +1,3 @@
-import { ref, computed } from 'vue'
 import axios from 'axios'
 import type { HealthResponse } from '@/types/health'
 import { getHealth } from '@/api/health'

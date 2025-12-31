@@ -2,6 +2,7 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import tailwindcss from '@tailwindcss/vite'
+import AutoImport from 'unplugin-auto-import/vite'
 
 // https://vite.dev/config/
 import path from 'node:path'
@@ -15,7 +16,20 @@ const dirname =
 
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
-  plugins: [vue(), tailwindcss()],
+  plugins: [
+    vue(), 
+    tailwindcss(),
+    AutoImport({
+      imports: ['vue'],
+      dirs: [
+        './src/api/**',
+        './src/components/**',
+        './src/composables/**',
+        './src/types/**',
+      ],
+      dts: './src/auto-imports.d.ts',
+    }),
+  ],
   resolve: {
     alias: {
       '@': path.resolve(dirname, './src'),
