@@ -29,6 +29,7 @@ Vue 3 + Kotlin/Spring Boot によるフルスタックアプリケーション�
 - **PostgreSQL** - リレーショナルデータベース
 - **Flyway** - データベースマイグレーション
 - **Spring Data JPA** - データアクセス層
+- **Jakarta Bean Validation** - アノテーションベースのバリデーション
 - **Gradle** - ビルドツール
 - **ktlint** - Kotlin コードフォーマッター
 - **detekt** - Kotlin 静的解析ツール
