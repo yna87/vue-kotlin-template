@@ -16,7 +16,8 @@
   "settings": {
     "editor.formatOnSave": true,
     "files.autoSave": "onFocusChange",
-    "kotlin.compiler.jvm.target": "21"
+    "kotlin.compiler.jvm.target": "21",
+    "typescript.tsdk": "frontend/node_modules/typescript/lib"
   },
   "extensions": {
     "recommendations": [
