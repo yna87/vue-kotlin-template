@@ -106,6 +106,24 @@ cd apps/backend
 
 ## 利用可能なコマンド
 
+### クイックスタート（Makefile）
+
+プロジェクトルートで以下のコマンドを実行できます：
+
+```bash
+# 利用可能なコマンドを表示
+make help
+
+# フロントエンドとバックエンドを同時に起動
+make dev
+
+# フロントエンドのみ起動
+make dev-frontend
+
+# バックエンドのみ起動
+make dev-backend
+```
+
 ### フロントエンド
 
 ```bash
