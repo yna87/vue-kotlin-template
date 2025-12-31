@@ -10,15 +10,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 class BackendApplication {
     @Bean
     fun corsConfigurer() =
-            object : WebMvcConfigurer {
-                override fun addCorsMappings(registry: CorsRegistry) {
-                    registry.addMapping("/**")
-                            .allowedOrigins("http://localhost:5173")
-                            .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
-                            .allowedHeaders("*")
-                            .allowCredentials(true)
-                }
+        object : WebMvcConfigurer {
+            override fun addCorsMappings(registry: CorsRegistry) {
+                registry
+                    .addMapping("/**")
+                    .allowedOrigins("http://localhost:5173")
+                    .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS")
+                    .allowedHeaders("*")
+                    .allowCredentials(true)
             }
+        }
 }
 
 fun main(args: Array<String>) {
