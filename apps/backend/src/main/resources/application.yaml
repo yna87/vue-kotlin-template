@@ -9,3 +9,6 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
+
+cors:
+  allowed-origins: http://localhost:5173
