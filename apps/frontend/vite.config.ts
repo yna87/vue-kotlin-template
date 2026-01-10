@@ -17,7 +17,7 @@ const dirname =
 // More info at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon
 export default defineConfig({
   plugins: [
-    vue(), 
+    vue(),
     tailwindcss(),
     AutoImport({
       imports: ['vue'],
@@ -25,6 +25,9 @@ export default defineConfig({
         './src/api/**',
         './src/components/**',
         './src/composables/**',
+        './src/pages/**',
+        './src/router/**',
+        './src/schemas/**',
         './src/types/**',
       ],
       dts: './src/auto-imports.d.ts',

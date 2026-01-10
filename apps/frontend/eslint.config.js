@@ -13,10 +13,16 @@ export default defineConfig([
     languageOptions: { globals: globals.browser },
   },
   tseslint.configs.recommended,
-  pluginVue.configs['flat/essential'],
+  pluginVue.configs['flat/recommended'],
   {
     files: ['**/*.vue'],
     languageOptions: { parserOptions: { parser: tseslint.parser } },
+  },
+  {
+    files: ['**/*.{ts,mts,cts,vue}'],
+    rules: {
+      'no-undef': 'off',
+    },
   },
   eslintConfigPrettier,
 ])

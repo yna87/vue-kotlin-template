@@ -1,5 +1,6 @@
-package io.github.yna87.vuekotlintemplate
+package io.github.yna87.vuekotlintemplate.controller
 
+import io.github.yna87.vuekotlintemplate.dto.HealthResponse
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 import java.time.LocalDateTime
@@ -13,8 +14,3 @@ class HealthCheckController {
             timestamp = LocalDateTime.now().toString(),
         )
 }
-
-data class HealthResponse(
-    val status: String,
-    val timestamp: String,
-)
