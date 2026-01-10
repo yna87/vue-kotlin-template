@@ -28,7 +28,7 @@ Vue 3 + Kotlin/Spring Boot によるフルスタックアプリケーション�
 - **Java 21** - 最新の LTS バージョン
 - **PostgreSQL** - リレーショナルデータベース
 - **Flyway** - データベースマイグレーション
-- **Spring Data JPA** - データアクセス層
+- **Exposed** - Kotlin ネイティブな ORM フレームワーク（型安全な SQL DSL）
 - **Jakarta Bean Validation** - アノテーションベースのバリデーション
 - **Gradle** - ビルドツール
 - **ktlint** - Kotlin コードフォーマッター
