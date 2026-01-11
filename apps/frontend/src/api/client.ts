@@ -11,3 +11,5 @@ export const apiClient: AxiosInstance = axios.create({
     'Content-Type': 'application/json',
   },
 })
+
+export type ApiClient = typeof apiClient

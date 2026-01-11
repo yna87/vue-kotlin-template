@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { provideApi } from './composables/useApi'
+
+provideApi()
 </script>
 
 <template>

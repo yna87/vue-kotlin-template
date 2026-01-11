@@ -1,8 +1,10 @@
 import axios from 'axios'
 import type { HealthResponse } from '@/types/health'
-import { getHealth } from '@/api/health'
+import { useApi } from './useApi'
 
 export function useHealthCheck() {
+  const { health: healthApi } = useApi()
+
   const isLoading = ref(false)
   const error = ref<string | null>(null)
   const healthData = ref<HealthResponse | null>(null)
@@ -15,7 +17,7 @@ export function useHealthCheck() {
     healthData.value = null
 
     try {
-      healthData.value = await getHealth()
+      healthData.value = await healthApi.getHealth()
     } catch (err) {
       if (axios.isAxiosError(err)) {
         error.value = 'Failed to fetch health status'
