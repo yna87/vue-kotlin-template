@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite'
 
 import HomePage from './HomePage.vue'
 import type { HealthResponse } from '@/types/health'
-import { expect, fn, userEvent, within } from '@storybook/test'
+import { expect, fn, within } from '@storybook/test'
 import { provideApi } from '@/composables/useApi'
 
 type CustomArgs = InstanceType<typeof HomePage> & {
@@ -41,19 +41,26 @@ export const Healthy: Story = {
   args: {
     getHealth: fn().mockResolvedValue({ status: 'healthy' }),
   },
-  play: async ({ args, canvasElement }) => {
+  play: async ({ args, canvasElement, userEvent, step }) => {
     const canvas = within(canvasElement)
 
-    // ヘルスチェックボタンをクリック
-    const checkButton = canvas.getByRole('button', { name: 'Check Health' })
-    await userEvent.click(checkButton)
+    await step(
+      'ヘルスチェックボタンをクリックすると、APIが呼び出されることを確認',
+      async () => {
+        // ヘルスチェックボタンをクリック
+        const checkButton = canvas.getByRole('button', { name: 'Check Health' })
+        await userEvent.click(checkButton)
 
-    // APIが呼び出されることを確認
-    await expect(args.getHealth).toHaveBeenCalled()
+        // APIが呼び出されることを確認
+        await expect(args.getHealth).toHaveBeenCalled()
+      },
+    )
 
-    // ヘルスチェック結果が表示されることを確認
-    const statusText = await canvas.findByText(/healthy/)
-    await expect(statusText).toBeInTheDocument()
+    await step('ヘルスチェックの結果が表示されることを確認', async () => {
+      // ヘルスチェックの結果が表示されることを確認
+      const healthStatus = await canvas.findByText(/Status: healthy/i)
+      await expect(healthStatus).toBeInTheDocument()
+    })
   },
 }
 
@@ -64,18 +71,25 @@ export const Unhealthy: Story = {
   args: {
     getHealth: fn().mockRejectedValue(new Error()),
   },
-  play: async ({ args, canvasElement }) => {
+  play: async ({ args, canvasElement, userEvent, step }) => {
     const canvas = within(canvasElement)
 
-    // ヘルスチェックボタンをクリック
-    const checkButton = canvas.getByRole('button', { name: 'Check Health' })
-    await userEvent.click(checkButton)
+    await step(
+      'ヘルスチェックボタンをクリックすると、APIが呼び出されることを確認',
+      async () => {
+        // ヘルスチェックボタンをクリック
+        const checkButton = canvas.getByRole('button', { name: 'Check Health' })
+        await userEvent.click(checkButton)
 
-    // APIが呼び出されることを確認
-    await expect(args.getHealth).toHaveBeenCalled()
+        // APIが呼び出されることを確認
+        await expect(args.getHealth).toHaveBeenCalled()
+      },
+    )
 
-    // エラーメッセージが表示されることを確認
-    const errorMessages = await canvas.findAllByText(/Error/i)
-    await expect(errorMessages.length).toBeGreaterThan(0)
+    await step('エラーメッセージが表示されることを確認', async () => {
+      // エラーメッセージが表示されることを確認
+      const errorMessages = await canvas.findAllByText(/Error/i)
+      await expect(errorMessages.length).toBeGreaterThan(0)
+    })
   },
 }

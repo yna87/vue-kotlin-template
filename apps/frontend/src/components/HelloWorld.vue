@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import { useCounter } from '@/composables/useCounter'
-import { useHealthCheck } from '@/composables/useHealthCheck'
+import type { HealthResponse } from '@/types/health'
 
 defineProps<{
+  checkHealth: () => Promise<void>
   msg: string
+  healthData: HealthResponse | null
+  isHealthy: boolean
+  isLoading: boolean
+  error: string | null
 }>()
 
 const { count, increment, decrement, reset } = useCounter()
-const { isLoading, error, healthData, isHealthy, checkHealth } =
-  useHealthCheck()
 </script>
 
 <template>
@@ -20,9 +23,9 @@ const { isLoading, error, healthData, isHealthy, checkHealth } =
       <h2 class="text-xl font-semibold">API Health Check</h2>
 
       <button
-        @click="checkHealth"
         :disabled="isLoading"
         class="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+        @click="checkHealth"
       >
         {{ isLoading ? 'Checking...' : 'Check Health' }}
       </button>
@@ -54,20 +57,20 @@ const { isLoading, error, healthData, isHealthy, checkHealth } =
       <p class="text-lg">Count: {{ count }}</p>
       <div class="flex gap-2 justify-center">
         <button
-          @click="increment"
           class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+          @click="increment"
         >
           +
         </button>
         <button
-          @click="decrement"
           class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+          @click="decrement"
         >
           -
         </button>
         <button
-          @click="reset"
           class="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600 transition-colors"
+          @click="reset"
         >
           Reset
         </button>
