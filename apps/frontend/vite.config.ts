@@ -21,15 +21,6 @@ export default defineConfig({
     tailwindcss(),
     AutoImport({
       imports: ['vue'],
-      dirs: [
-        './src/api/**',
-        './src/components/**',
-        './src/composables/**',
-        './src/pages/**',
-        './src/router/**',
-        './src/schemas/**',
-        './src/types/**',
-      ],
       dts: './src/auto-imports.d.ts',
     }),
   ],
