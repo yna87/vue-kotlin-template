@@ -1,0 +1,27 @@
+# ローカル開発環境用の設定ファイル
+#
+# 使い方:
+# 1. このファイルを application-local.yml にコピー
+#    cp application-local.yml.example application-local.yml
+#
+# 2. 必要に応じて設定値を編集
+#
+# 3. アプリケーションを起動
+#    ./gradlew bootRun --args='--spring.profiles.active=local'
+#    または IntelliJ IDEA の Run Configuration で Active profiles に 'local' を設定
+
+# データベース接続をカスタマイズする場合は以下のコメントを外して編集
+#spring:
+#  datasource:
+#    url: jdbc:postgresql://localhost:5432/your_db_name
+#    username: postgres
+#    password: your_password
+
+# CORS設定をカスタマイズする場合は以下のコメントを外して編集
+#cors:
+#  allowed-origins: http://localhost:5173,http://localhost:3000
+
+# 認証機能を実装する場合の例（JWT）
+# jwt:
+#   secret: YOUR_SECRET_HERE  # openssl rand -base64 32 で生成した32文字以上の文字列
+#   expiration: 86400000  # 24時間（ミリ秒）

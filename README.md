@@ -54,75 +54,124 @@ cd YOUR_REPO_NAME
 - Java 21
 - PostgreSQL
 
-### ローカルでセットアップ
+## クイックスタート
 
-#### 1. データベースの作成
-
-バックエンドを起動する前に、PostgreSQL でデータベースを作成してください：
+### 1. データベースの作成
 
 ```bash
-# 方法1: psqlコマンドから
-psql postgres
-CREATE DATABASE vue_kotlin_template;
-\l  # データベース一覧を確認
-\q  # 終了
-
-# 方法2: createdbコマンド
+# データベースを作成
 createdb vue_kotlin_template
 ```
 
-または、既存のユーザーを使用する場合は、データベースのみ作成：
+### 2. 依存関係のインストール
 
 ```bash
-psql -U postgres -c "CREATE DATABASE vuekotlintemplate;"
-```
-
-**注意**: データベース名とユーザー名は `apps/backend/src/main/resources/application.yaml` の設定と一致させてください。
-
-#### 2. フロントエンド
-
-```bash
+# フロントエンドの依存関係をインストール
 cd apps/frontend
-
-# 依存関係のインストール
 pnpm install
-
-# 開発サーバーの起動
-pnpm dev
+cd ../..
 ```
 
-#### 3. バックエンド
+### 3. アプリケーションの起動
+
+プロジェクトルートで以下のコマンドを実行：
 
 ```bash
-cd apps/backend
-
-# ビルド
-./gradlew build
-
-# アプリケーションの起動
-./gradlew bootRun
+# フロントエンドとバックエンドを同時に起動
+make dev
 ```
 
-初回起動時、Flyway がデータベースマイグレーションを自動的に実行します。
+ブラウザで http://localhost:5173 を開くと、フロントエンドが表示されます。
+
+**個別に起動する場合**:
+```bash
+make dev-frontend  # フロントエンドのみ
+make dev-backend   # バックエンドのみ
+```
+
+## カスタマイズ
+
+このテンプレートを本格的に使用する際は、以下の項目をカスタマイズしてください。
+
+### バックエンドの package 名の変更
+
+現在の package 名 `io.github.yna87.vuekotlintemplate` を自分のプロジェクトに合わせて変更します。
+
+1. ディレクトリ構造を変更:
+
+   ```bash
+   # 例: io.yourname.yourproject に変更する場合
+   cd apps/backend/src/main/kotlin
+   mkdir -p io/yourname/yourproject
+   mv io/github/yna87/vuekotlintemplate/* io/yourname/yourproject/
+   rm -rf io/github
+
+   # テストコードも同様に
+   cd ../../../test/kotlin
+   mkdir -p io/yourname/yourproject
+   mv io/github/yna87/vuekotlintemplate/* io/yourname/yourproject/
+   rm -rf io/github
+   ```
+
+2. すべての `.kt` ファイルの `package` 宣言を変更:
+   - `apps/backend/src/main/kotlin/**/*.kt`
+   - `apps/backend/src/test/kotlin/**/*.kt`
+   - 各ファイルの先頭の `package io.github.yna87.vuekotlintemplate` を新しい package 名に変更
+
+### プロジェクト名の変更
+
+1. **バックエンド** - `apps/backend/build.gradle.kts`:
+   - `group = "com.example"` → 自分の group ID に変更
+   - `description = "Vue Kotlin Template"` → プロジェクトの説明に変更
+
+### データベース設定の変更
+
+デフォルトでは以下の設定が使用されます：
+- **データベースURL**: `jdbc:postgresql://localhost:5432/vue_kotlin_template`
+- **ユーザー名**: `postgres`
+- **パスワード**: (空白)
+- **CORS許可オリジン**: `http://localhost:5173`
+
+異なる設定を使用する場合は、`application-local.yml` を作成してカスタマイズします：
+
+```bash
+cd apps/backend/src/main/resources
+cp application-local.yml.example application-local.yml
+```
+
+`application-local.yml` で設定を変更：
+
+```yaml
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/your_db_name
+    username: your_username
+    password: your_password
+
+cors:
+  allowed-origins: http://localhost:5173,http://localhost:3000
+```
+
+または、環境変数を使用：
+
+```bash
+export DATABASE_URL=jdbc:postgresql://localhost:5432/your_db_name
+export DATABASE_USERNAME=your_username
+export DATABASE_PASSWORD=your_password
+export CORS_ALLOWED_ORIGINS=http://localhost:5173,http://localhost:3000
+```
+
+**注意**: `application.yaml` を直接編集せず、`application-local.yml` または環境変数を使用してください。`application-local.yml` は `.gitignore` に含まれており、機密情報の誤コミットを防ぎます。
 
 ## 利用可能なコマンド
 
-### クイックスタート（Makefile）
-
-プロジェクトルートで以下のコマンドを実行できます：
+### Makefile コマンド
 
 ```bash
-# 利用可能なコマンドを表示
-make help
-
-# フロントエンドとバックエンドを同時に起動
-make dev
-
-# フロントエンドのみ起動
-make dev-frontend
-
-# バックエンドのみ起動
-make dev-backend
+make help         # 利用可能なコマンドを表示
+make dev          # フロントエンドとバックエンドを同時に起動
+make dev-frontend # フロントエンドのみ起動
+make dev-backend  # バックエンドのみ起動
 ```
 
 ### フロントエンド
@@ -158,7 +207,7 @@ pnpm type-check
 cd apps/backend
 
 # アプリケーションの起動
-./gradlew bootRun
+./gradlew bootRun --args='--spring.profiles.active=local'
 
 # ビルド
 ./gradlew build
@@ -207,62 +256,6 @@ vue-kotlin-template/
 │
 ├── .github/                           # GitHub Actions workflows
 └── .vscode/                           # VSCode 設定
-```
-
-## 初期設定とカスタマイズ
-
-このテンプレートを使用する際は、以下の項目をプロジェクトに合わせてカスタマイズしてください：
-
-### 必須のカスタマイズ
-
-テンプレートを使用する際は、以下の項目を必ず変更してください：
-
-#### バックエンドの package 名の変更
-
-現在の package 名 `io.github.yna87.vuekotlintemplate` を自分のプロジェクトに合わせて変更します。
-
-1. ディレクトリ構造を変更:
-
-   ```bash
-   # 例: io.yourname.yourproject に変更する場合
-   cd apps/backend/src/main/kotlin
-   mkdir -p io/yourname/yourproject
-   mv io/github/yna87/vuekotlintemplate/* io/yourname/yourproject/
-   rm -rf io/github
-
-   # テストコードも同様に
-   cd ../../../test/kotlin
-   mkdir -p io/yourname/yourproject
-   mv io/github/yna87/vuekotlintemplate/* io/yourname/yourproject/
-   rm -rf io/github
-   ```
-
-2. すべての `.kt` ファイルの `package` 宣言を変更:
-   - `apps/backend/src/main/kotlin/**/*.kt`
-   - `apps/backend/src/test/kotlin/**/*.kt`
-   - 各ファイルの先頭の `package io.github.yna87.vuekotlintemplate` を新しい package 名に変更
-
-#### プロジェクト名の変更
-
-1. **バックエンド**
-
-   - `apps/backend/build.gradle.kts`:
-     - `group = "com.example"` → 自分の group ID に変更
-     - `description = "Vue Kotlin Template"` → プロジェクトの説明に変更
-
-2. **フロントエンド**
-   - `apps/frontend/package.json`:
-     - `"name": "vue-kotlin-template"` → プロジェクト名に変更
-
-#### データベース設定の変更
-
-`apps/backend/src/main/resources/application.yaml` を環境に合わせて変更:
-
-```yaml
-datasource:
-  url: jdbc:postgresql://localhost:5432/vuekotlintemplate # データベース名を変更
-  username: yna87 # データベースユーザー名を変更
-  password: # パスワードを設定
 ```
 
 ## ライセンス
